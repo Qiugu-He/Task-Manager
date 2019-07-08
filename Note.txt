@@ -1,0 +1,115 @@
+MongoDB:
+
+- Lectuer 1: SQL vs. NoSQL: 
+    - Both some are identical
+    - NoSQL can create many database as need, for exampe, 1 DB for 1 app.
+
+    - SQL, data was stroed in tables, DB can has many tables as need, for example ,
+        1 table for user data and another table for taskes user has to complete
+        - individual item called row/record
+
+    - NoSQL using collection
+        - each individual item in collection is called documents (Json like),  
+            each documents has field.(columns for SQL)
+
+
+- Lecture 2: install MongoDB
+    - nativagate the executable:
+        /Users/qiugu/mongoDB/bin/mongod.exe --dbpath=/Users/qiugu/mondoDB-Data
+            -- actually start the server, run the DB 
+    - mongoDB-Data --->> the local database
+
+    **************** now the db is running ....
+
+
+- Lecture 3: Installing database GUI viewer for developer to easily manage the DB data
+    - tool: robo 3t (it is using js to manitupate the DB)
+
+    - check if the robo 3t is connected to the db seccessfully:
+        - robo3t -> local DB-> open shell -> db.version()
+
+
+-Lecture 4: conncet node.js app to mongoDB and insert new document to database
+    - tool: npm module, mongodb native driver
+
+    - create now project folder
+    - initialize npm:
+        npm init -y   -> generate the default json file 
+    
+    - install maongo driver modeul:
+        npm i mongodb@3.2.7
+        ---> now already to use the driver to connect to the db and insert some documents
+
+     //create DB Obj
+     const mongodb = require('mongodb')
+
+     // initialize the connection to DB, allows using the CRUD
+     const MongoClient = mongodb.MongoClient 
+
+     const connectionURL = 'mongodb://127.0.0.1:27017'   //127.0.0.1 is the local host
+     const databaseName = 'task-manager'
+
+     MongoClient.connect(connectionURL, {useNewUrlParser: true}, (error, client)=>{
+         if(error){
+             return consol.log('Unable to connect to database!')
+         }
+
+         console.log('Connected to database correctly!')    // now connceted to db correctly
+     })
+
+
+     - to test:
+        node mongodb.js
+
+    - create a db:
+        const db = client.db(databaseName)   // this will create and conncet to db automatically
+
+    - select a collection and manipulate:
+        db.collection('users').insertOne({
+            name:'Qiugu He',
+            age: 27
+        })
+
+        *** now be able to invistigate the new item in db GUI
+
+
+- Lecture 5: more on insert:
+    
+    db.collection('users').insertOne({
+            name:'Qiugu He',
+            age: 27
+        }, (error, result)=>{
+            if(error){
+                return console.log('Unable to insert')
+            }
+
+            console.log(result.ops)  // result.ops --> the array of obj inserted into db
+        })
+
+    //insert multiple
+    db.collection('users').insertMany([
+        {
+            name:'bb',
+            age:5
+        },{
+            name:'aa',
+            age:3
+        }
+    ], (error, result)=>{
+        if(error){
+            return console.log('Unable to insert documents!')
+        }
+
+        console.log(result.ops)
+    })
+
+
+
+
+
+
+
+
+
+
+    
