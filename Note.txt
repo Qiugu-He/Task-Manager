@@ -105,6 +105,63 @@ MongoDB:
 
 
 
+Lecture 6: ObjectID
+    const mongodb = require('mongodb')
+    const MongoClient = mongodb.MongoClient 
+    const ObjectID = mongodb.ObjectID
+
+    //destructing:
+    const {MongoClient, ObjectID} = require('mongodb')
+
+    const id = new ObjectID()
+
+    db.collection('users').insertOne({
+            _id: id,
+            name:'Qiugu He',
+            age: 27
+        }, (error, result)=>{
+            if(error){
+                return console.log('Unable to insert')
+            }
+
+            console.log(result.ops)  // result.ops --> the array of obj inserted into db
+        })
+
+
+Lecture 7: Read/Fetch data:
+    db.collection('users').findOne({name: 'aa'}, (error, result)=>{
+        if(error){
+            return console.log('Unable to fetch')
+        }
+
+        console.log(result)
+    })
+
+    *** if ther is multiple user name same, it will return the first one in DB
+
+    //search by id:
+    db.collection('users').findOne( {_id: new Object("5d23832952cff439e4584566")}, (error, result)=>{
+        if(error){
+            return console.log('Unable to fetch')
+        }
+
+        console.log(result)
+    })
+
+    ****** check mongodb document for method usage ***********************
+
+    //multiple search
+    db.collection('users').find( {age: 11}).toArray((error, result)=>{
+        if(error){
+            return console.log('Unable to fetch')
+        }
+
+        console.log(result)
+    })
+
+
+
+
 
 
 
